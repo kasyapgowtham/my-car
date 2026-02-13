@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const GAME_WIDTH = 400;
 const PLAYER_Y = 500;
@@ -60,7 +60,7 @@ const useGameEngine = () => {
     return vertical && horizontal;
   };
 
-  const gameLoop = (time) => {
+  const gameLoop = useCallback((time) => {
     if (gameOverRef.current) return;
 
 
@@ -103,7 +103,7 @@ const useGameEngine = () => {
 
     setSpeed((s) => s + delta * 0.00001);
     requestRef.current = requestAnimationFrame(gameLoop);
-  };
+  });
 
  const resetGame = () => {
   cancelAnimationFrame(requestRef.current);
@@ -123,7 +123,7 @@ const useGameEngine = () => {
   useEffect(() => {
     requestRef.current = requestAnimationFrame(gameLoop);
     return () => cancelAnimationFrame(requestRef.current);
-  }, []);
+  }, [gameLoop]);
 
   return { playerX, enemies, speed, gameOver, resetGame };
 };
