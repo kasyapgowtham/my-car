@@ -20,6 +20,7 @@ const useGameEngine = () => {
   const [speed, setSpeed] = useState(4);
   const [enemies, setEnemies] = useState([]);
   const [gameOver, setGameOver] = useState(false);
+  const[score,setScore]=useState(0);
 
   // Keyboard input
   useEffect(() => {
@@ -85,7 +86,9 @@ const useGameEngine = () => {
         gameOverRef.current = true;
         setGameOver(true);
         cancelAnimationFrame(requestRef.current);
-
+        setTimeout(()=>{
+            setScore(0);
+        },1000)
         cancelAnimationFrame(requestRef.current);
         return [];
       }
@@ -100,8 +103,12 @@ const useGameEngine = () => {
 
       return updated;
     });
-
+    setScore((prev)=>prev+1);
+    // if(gameOverRef.current){
+        
+    // }
     setSpeed((s) => s + delta * 0.00001);
+    //setScore((prev)=>prev+1);
     requestRef.current = requestAnimationFrame(gameLoop);
   });
 
@@ -125,7 +132,7 @@ const useGameEngine = () => {
     return () => cancelAnimationFrame(requestRef.current);
   }, [gameLoop]);
 
-  return { playerX, enemies, speed, gameOver, resetGame };
+  return { playerX, enemies, speed, gameOver, score, resetGame };
 };
 
 export default useGameEngine;

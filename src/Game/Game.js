@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useGameEngine from "./useGameEngine";
 import Car from "./Car";
 import EnemyCar from "./Enemycar";
 
 const Game = () => {
-  const { playerX, enemies,gameOver,resetGame  } = useGameEngine();
-
+  const { playerX, enemies,gameOver,score,resetGame  } = useGameEngine();
+  //const[score,setscore]=useState(0);
+  // useEffect(()=>{
+  //   enemies.forEach(function(){
+  //     setscore((prev)=>prev+1);
+  //   })
+  //   if(gameOver){
+  //     setscore(0);
+  //   }
+  // },[enemies])
   return (
     <div
       style={{
@@ -17,6 +25,7 @@ const Game = () => {
         background: "linear-gradient(to bottom, #4facfe, #87CEEB)"
       }}
     >
+      {score}
       <div
         style={{
           position: "absolute",
@@ -27,6 +36,8 @@ const Game = () => {
           background: "#333"
         }}
       >
+        {/*{score}*/}
+        
         <Car x={playerX} />
 
         {enemies.map((enemy) => (
